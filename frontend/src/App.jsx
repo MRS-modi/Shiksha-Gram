@@ -30,6 +30,7 @@ export function App() {
 
   const [activeTab, setActiveTab] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Handle direct admin login route
   const handleGoAdminLogin = () => {
@@ -105,15 +106,24 @@ export function App() {
       {/* 3. AUTHENTICATED PRODUCTION APP SHELL */}
       {showAppShell && (
         <div className="flex h-screen overflow-hidden">
-          {/* Main Navigation Sidebar */}
-          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+          {/* Main Navigation Sidebar (Docked on desktop / Slide-over drawer on mobile & tablet) */}
+          <Sidebar 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab} 
+            isOpen={mobileSidebarOpen}
+            onClose={() => setMobileSidebarOpen(false)}
+          />
 
           {/* Main Content Area with Header */}
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <Navbar onSearch={setSearchQuery} searchQuery={searchQuery} />
+          <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+            <Navbar 
+              onSearch={setSearchQuery} 
+              searchQuery={searchQuery} 
+              onToggleSidebar={() => setMobileSidebarOpen(prev => !prev)}
+            />
 
-            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-16">
-              <div className="max-w-7xl mx-auto">
+            <main className="flex-1 overflow-y-auto p-3.5 sm:p-6 lg:p-8 pb-16">
+              <div className="max-w-7xl mx-auto min-w-0">
                 {isTeacher && (
                   <TeacherWorkspace 
                     activeTab={activeTab} 
