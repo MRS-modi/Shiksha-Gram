@@ -165,8 +165,8 @@ export function App() {
               </div>
             </main>
 
-            {/* Mobile Bottom Navigation Bar (Visible only on mobile: sm:hidden) */}
-            <nav className="sm:hidden fixed bottom-0 inset-x-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 z-30 flex items-center justify-around py-2 px-1 select-none shadow-lg">
+            {/* Mobile Bottom Navigation Bar (Elevated z-index above injected widgets) */}
+            <nav className="sm:hidden fixed bottom-0 inset-x-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 z-[999] flex items-center justify-around py-2 px-1 pb-[max(0.5rem,env(safe-area-inset-bottom))] select-none shadow-2xl">
               {isStudent && (
                 <>
                   <button 
