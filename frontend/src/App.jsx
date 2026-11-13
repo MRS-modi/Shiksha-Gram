@@ -1,15 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  LayoutDashboard, 
-  Users, 
-  GraduationCap, 
-  BookOpen, 
-  CheckCircle2, 
-  MessageSquare, 
-  Radio, 
-  FolderGit2, 
-  Menu 
-} from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 import { useLanguage } from './context/LanguageContext';
 import { useTheme } from './context/ThemeContext';
@@ -24,7 +13,7 @@ import { AdminWorkspace } from './pages/admin/AdminWorkspace';
 
 export function App() {
   const { user, isAuthenticated, isTeacher, isStudent, isAdmin, isParent } = useAuth();
-  const { lang, t } = useLanguage();
+  const { lang } = useLanguage();
   const { isDark } = useTheme();
 
   // Navigation flow state: 'landing' | 'admin_login' | 'app'
@@ -41,7 +30,6 @@ export function App() {
 
   const [activeTab, setActiveTab] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Handle direct admin login route
   const handleGoAdminLogin = () => {
@@ -117,24 +105,15 @@ export function App() {
       {/* 3. AUTHENTICATED PRODUCTION APP SHELL */}
       {showAppShell && (
         <div className="flex h-screen overflow-hidden">
-          {/* Main Navigation Sidebar (Docked on desktop / Slide-over drawer on mobile & tab) */}
-          <Sidebar 
-            activeTab={activeTab} 
-            setActiveTab={setActiveTab} 
-            isOpen={mobileSidebarOpen}
-            onClose={() => setMobileSidebarOpen(false)}
-          />
+          {/* Main Navigation Sidebar */}
+          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
           {/* Main Content Area with Header */}
-          <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-            <Navbar 
-              onSearch={setSearchQuery} 
-              searchQuery={searchQuery} 
-              onToggleSidebar={() => setMobileSidebarOpen(prev => !prev)}
-            />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <Navbar onSearch={setSearchQuery} searchQuery={searchQuery} />
 
-            <main className="flex-1 overflow-y-auto p-3.5 sm:p-6 lg:p-8 pb-24 sm:pb-16">
-              <div className="max-w-7xl mx-auto min-w-0">
+            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-16">
+              <div className="max-w-7xl mx-auto">
                 {isTeacher && (
                   <TeacherWorkspace 
                     activeTab={activeTab} 
@@ -164,182 +143,6 @@ export function App() {
                 )}
               </div>
             </main>
-
-            {/* Mobile Bottom Navigation Bar (Elevated z-index above injected widgets) */}
-            <nav className="sm:hidden fixed bottom-0 inset-x-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 z-[999] flex items-center justify-around py-2 px-1 pb-[max(0.5rem,env(safe-area-inset-bottom))] select-none shadow-2xl">
-              {isStudent && (
-                <>
-                  <button 
-                    onClick={() => setActiveTab('overview')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'overview' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <LayoutDashboard className="w-5 h-5" />
-                    <span>{t('navOverview')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('attendance')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'attendance' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <CheckCircle2 className="w-5 h-5" />
-                    <span>{t('navAttendance')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('performance')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'performance' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <GraduationCap className="w-5 h-5" />
-                    <span>{t('navPerformance')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('learning')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'learning' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <BookOpen className="w-5 h-5" />
-                    <span>{t('navLearningHub')}</span>
-                  </button>
-                </>
-              )}
-
-              {isTeacher && (
-                <>
-                  <button 
-                    onClick={() => setActiveTab('overview')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'overview' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <LayoutDashboard className="w-5 h-5" />
-                    <span>{t('navOverview')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('classes')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'classes' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <Users className="w-5 h-5" />
-                    <span>{t('navMyClasses')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('academics')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'academics' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <GraduationCap className="w-5 h-5" />
-                    <span>{t('navAcademics')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('learning')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'learning' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <BookOpen className="w-5 h-5" />
-                    <span>{t('navLearningHub')}</span>
-                  </button>
-                </>
-              )}
-
-              {isAdmin && (
-                <>
-                  <button 
-                    onClick={() => setActiveTab('dashboard')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'dashboard' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <LayoutDashboard className="w-5 h-5" />
-                    <span>Dashboard</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('users')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'users' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <Users className="w-5 h-5" />
-                    <span>Users</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('batches')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'batches' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <FolderGit2 className="w-5 h-5" />
-                    <span>Batches</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('broadcasts')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'broadcasts' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <Radio className="w-5 h-5" />
-                    <span>Notices</span>
-                  </button>
-                </>
-              )}
-
-              {isParent && (
-                <>
-                  <button 
-                    onClick={() => setActiveTab('overview')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'overview' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <LayoutDashboard className="w-5 h-5" />
-                    <span>{t('navOverview')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('attendance')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'attendance' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <CheckCircle2 className="w-5 h-5" />
-                    <span>{t('navAttendance')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('performance')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'performance' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <GraduationCap className="w-5 h-5" />
-                    <span>{t('navPerformance')}</span>
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('notices')} 
-                    className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl transition-colors ${
-                      activeTab === 'notices' ? 'text-brand-600 dark:text-brand-400 font-bold' : 'text-slate-400'
-                    }`}
-                  >
-                    <MessageSquare className="w-5 h-5" />
-                    <span>{t('navNotices')}</span>
-                  </button>
-                </>
-              )}
-
-              {/* Hamburger "More / Menu" button opens the full sidebar drawer */}
-              <button 
-                onClick={() => setMobileSidebarOpen(true)} 
-                className="flex flex-col items-center gap-0.5 text-[10px] font-semibold py-1 px-2.5 rounded-xl text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
-              >
-                <Menu className="w-5 h-5" />
-                <span>{lang === 'hi' ? 'मेन्यू' : 'Menu'}</span>
-              </button>
-            </nav>
           </div>
         </div>
       )}

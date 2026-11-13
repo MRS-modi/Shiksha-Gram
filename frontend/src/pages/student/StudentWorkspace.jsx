@@ -380,7 +380,7 @@ export const StudentWorkspace = ({ activeTab = 'overview', setActiveTab }) => {
           </div>
 
           {/* Quick Metrics Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             
             {/* Attendance Circular Progress Card */}
             <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4">
@@ -816,19 +816,19 @@ export const StudentWorkspace = ({ activeTab = 'overview', setActiveTab }) => {
           </div>
 
           {/* Monthly Interactive Calendar */}
-          <div className="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 {lang === 'hi' ? 'नवंबर 2026 उपस्थिति कैलेंडर (क्लिक करके विवरण देखें)' : 'November 2026 Attendance Calendar (Click Day for Details)'}
               </h3>
-              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs">
+              <div className="flex items-center gap-3 text-xs">
                 <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Present</span>
                 <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-rose-500" /> Absent</span>
                 <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-slate-300" /> Sunday</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center text-xs">
+            <div className="grid grid-cols-7 gap-2 text-center text-xs">
               {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
                 <div key={day} className="font-bold text-slate-400 py-1 uppercase text-[10px]">{day}</div>
               ))}
@@ -856,7 +856,7 @@ export const StudentWorkspace = ({ activeTab = 'overview', setActiveTab }) => {
                         setShowDayModal(true);
                       }
                     }}
-                    className={`p-1.5 sm:p-3 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-0.5 sm:gap-1 border transition-all ${
+                    className={`p-3 rounded-2xl flex flex-col items-center justify-center gap-1 border transition-all ${
                       isFuture
                         ? 'border-slate-100 dark:border-slate-800/40 text-slate-400 bg-slate-50/50 dark:bg-slate-900/50 cursor-default'
                         : isSunday

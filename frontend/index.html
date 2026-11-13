@@ -9,51 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Automatic Netlify Badge Suppressor -->
-    <script>
-      (function() {
-        function removeNetlifyElements() {
-          try {
-            var badges = document.querySelectorAll('#netlify-badge, [id*="netlify-badge"], [class*="netlify-badge"], a[href*="netlify.com"]');
-            badges.forEach(function(el) {
-              var target = el;
-              // If wrapped in a fixed container at bottom right, remove parent
-              if (target.closest) {
-                var fixedParent = target.closest('div[style*="fixed"]');
-                if (fixedParent) {
-                  fixedParent.remove();
-                  return;
-                }
-              }
-              target.remove();
-            });
-
-            // Target any fixed elements containing "Powered by Netlify"
-            var allFixed = document.querySelectorAll('div, a, iframe');
-            allFixed.forEach(function(node) {
-              if (node.textContent && node.textContent.indexOf('Powered by Netlify') !== -1) {
-                node.remove();
-              }
-            });
-          } catch(e) {}
-        }
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', removeNetlifyElements);
-        } else {
-          removeNetlifyElements();
-        }
-
-        var observer = new MutationObserver(removeNetlifyElements);
-        window.addEventListener('load', function() {
-          removeNetlifyElements();
-          if (document.body) {
-            observer.observe(document.body, { childList: true, subtree: true });
-          }
-        });
-      })();
-    </script>
   </head>
   <body class="bg-[#F8FAFC] dark:bg-[#0B1120] text-slate-800 dark:text-slate-100 antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
     <div id="root"></div>

@@ -47,21 +47,3 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
-
-/* Automatically suppress Netlify badge and drawer overlays */
-#netlify-badge,
-[id*="netlify-badge"],
-[class*="netlify-badge"],
-[data-netlify-deploy-id],
-div[class*="netlify-feedback"],
-div[class*="netlify-drawer"],
-iframe[src*="netlify"],
-a[href*="netlify.com"][style*="position: fixed"],
-div:has(> a[href*="netlify.com"]),
-div[style*="position: fixed"]:has(a[href*="netlify.com"]),
-div[style*="position: fixed"]:has([aria-label*="Netlify"]) {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
