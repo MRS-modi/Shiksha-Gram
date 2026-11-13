@@ -36,7 +36,7 @@ export const CaptchaWidget = ({ onValidate }) => {
   };
 
   return (
-    <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700/60 flex items-center justify-between gap-3">
+    <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700/60 flex items-center justify-between gap-2.5 flex-wrap sm:flex-nowrap">
       <div className="flex items-center gap-2">
         <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
           {lang === 'hi' ? 'सुरक्षा जांच:' : 'Security Check:'}

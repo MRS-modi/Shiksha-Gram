@@ -1038,7 +1038,7 @@ export const AdminWorkspace = ({ activeTab = 'dashboard', setActiveTab }) => {
           </div>
 
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 overflow-x-auto shadow-sm">
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[600px] text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-100 dark:border-slate-800 text-slate-400 uppercase text-[10px]">
                   <th className="py-3.5 pl-4">User Identity</th>
@@ -1142,7 +1142,7 @@ export const AdminWorkspace = ({ activeTab = 'dashboard', setActiveTab }) => {
 
           {/* Batches Table Grid */}
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 overflow-x-auto shadow-sm">
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[600px] text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-100 dark:border-slate-800 text-slate-400 uppercase text-[10px]">
                   <th className="py-3.5 pl-4">Batch Name & Subject</th>

@@ -1154,7 +1154,7 @@ export const TeacherWorkspace = ({ activeTab = 'overview', setActiveTab }) => {
             {/* SUB-TAB 1: STUDENT ROSTER */}
             {batchSubTab === 'roster' && (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
+                <table className="w-full min-w-[600px] text-left text-xs">
                   <thead>
                     <tr className="border-b border-slate-100 dark:border-slate-800 text-slate-400 font-semibold uppercase text-[10px]">
                       <th className="pb-3 pl-2">Student</th>
@@ -1844,7 +1844,7 @@ export const TeacherWorkspace = ({ activeTab = 'overview', setActiveTab }) => {
               {lang === 'hi' ? 'बैच-वार संपूर्ण रैंकिंग सूची' : 'Coaching Institute Comprehensive Leaderboard'}
             </h3>
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full min-w-[600px] text-left text-xs">
                 <thead>
                   <tr className="border-b border-slate-100 dark:border-slate-800 text-slate-400 uppercase text-[10px]">
                     <th className="pb-3 pl-2">Rank</th>
@@ -2304,7 +2304,7 @@ export const TeacherWorkspace = ({ activeTab = 'overview', setActiveTab }) => {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full min-w-[600px] text-left text-xs">
                 <thead>
                   <tr className="border-b border-slate-100 dark:border-slate-800 text-slate-400 uppercase text-[10px]">
                     <th className="pb-3 pl-2">Student</th>
