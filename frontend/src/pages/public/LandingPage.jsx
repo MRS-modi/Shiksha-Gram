@@ -43,198 +43,16 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { api } from '../../services/api';
 import { getMockData } from '../../services/mockData';
-
-// Initial curated promotions posters for multi-poster banner carousel
-const PROMO_POSTERS = [
-  {
-    id: 'poster-1',
-    badge: '🔥 ADMISSIONS OPEN 2026-27',
-    badge_hi: '🔥 सत्र 2026-27 नामांकन प्रारंभ',
-    title: 'Super-30 Advanced IIT-JEE & NEET Rankers Batch',
-    title_hi: 'सुपर-30 जेईई व नीट रैंकर बैच 2026-27',
-    tagline: 'Guided by IIT-BHU and AIIMS Alumni Mentors • Limited 30 Seats',
-    tagline_hi: 'आईआईटी व एम्स मेंटर्स द्वारा मार्गदर्शन • केवल 30 सीटें उपलब्ध',
-    description: 'Intensive problem-solving, daily 4-hour concept mastery, weekly All-India rank test series, and 1-on-1 personal mentorship.',
-    description_hi: 'दैनिक 4 घंटे गहन अभ्यास, वीकली ऑल-इंडिया टेस्ट सीरीज, एनसीईआरटी मास्टरक्लास और 24x7 शंका समाधान।',
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&auto=format&fit=crop&q=80',
-    validTill: '31 March 2026',
-    discount: 'Scholarship up to 100%',
-    organizer: 'Target IIT & NEET Foundation',
-    phone: '+91 93350 44556'
-  },
-  {
-    id: 'poster-2',
-    badge: '🏆 STATE SCHOLARSHIP EXAM',
-    badge_hi: '🏆 राज्य स्तरीय छात्रवृत्ति परीक्षा',
-    title: 'Shiksha Gram Talent Search Scholarship Test (SG-TSE)',
-    title_hi: 'शिक्षा ग्राम मेधावी छात्रवृत्ति परीक्षा (SG-TSE 2026)',
-    tagline: 'Win 100% Fee Waiver & Laptop for Class 9th to 12th Students',
-    tagline_hi: 'कक्षा 9वीं से 12वीं के छात्रों के लिए 100% फीस माफी व लैपटॉप पुरस्कार',
-    description: 'Offline scholarship exam across 15+ verified coaching centers. Tests reasoning, mathematics, and science fundamentals.',
-    description_hi: '15+ प्रमाणित केंद्रों पर ऑफलाइन परीक्षा। रीजनिंग, गणित एवं विज्ञान पर आधारित बहुविकल्पीय प्रश्न।',
-    image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=1200&auto=format&fit=crop&q=80',
-    validTill: '15 April 2026',
-    discount: 'Free Registration',
-    organizer: 'Platform Administration',
-    phone: '+91 98765 43210'
-  },
-  {
-    id: 'poster-3',
-    badge: '🎯 95%+ TARGET CRASH COURSE',
-    badge_hi: '🎯 95%+ टारगेट क्रैश कोर्स',
-    title: 'Board Exam Mastery 60-Day Intensive Crash Course',
-    title_hi: 'बोर्ड परीक्षा 60-दिवसीय गहन क्रैश कोर्स',
-    tagline: 'Class 10th & 12th CBSE / State Board Fast-Track Prep',
-    tagline_hi: 'कक्षा 10वीं व 12वीं सीबीएसई एवं राज्य बोर्ड स्पेशल तैयारी',
-    description: 'Master 10-year previous questions, step-by-step subjective answering tricks, formula cheat-sheets, and instant WhatsApp parent updates.',
-    description_hi: 'विगत 10 वर्षों के बोर्ड प्रश्न पत्रों का हल, फॉर्मूला चीट-शीट, और हर रविवार 3-घंटे का रियल बोर्ड पैटर्न टेस्ट।',
-    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&auto=format&fit=crop&q=80',
-    validTill: '25 February 2026',
-    discount: 'Flat 40% Off on Batch Fees',
-    organizer: 'Sharma Science & Math Academy',
-    phone: '+91 98765 43210'
-  },
-  {
-    id: 'poster-4',
-    badge: '⚡ SPECIAL OFFER',
-    badge_hi: '⚡ विशेष ऑफर',
-    title: 'Early Bird Coaching Enrollment Privilege - Session 2026',
-    title_hi: 'अर्ली बर्ड कोचिंग प्रवेश विशेष छूट - सत्र 2026',
-    tagline: 'Book your seat before April 1st and get Free Study Material Kit',
-    tagline_hi: '1 अप्रैल से पहले सीट बुक करें और निःशुल्क स्टडी मटेरियल किट पाएं',
-    description: 'Avail exclusive discounts across all verified coaching partners with free digital access to Shiksha AI doubt solver.',
-    description_hi: 'सभी प्रमाणित पार्टनर कोचिंग संस्थानों में विशेष छूट के साथ शिक्षा AI का निःशुल्क 1 वर्ष का एक्सेस।',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&auto=format&fit=crop&q=80',
-    validTill: '01 April 2026',
-    discount: 'Flat 30% Off First Quarter',
-    organizer: 'Mishra Chemistry Classes',
-    phone: '+91 94150 99887'
-  }
-];
-
-// Curated verified partner institutes
-const DEFAULT_COACHING_PARTNERS = [
-  {
-    id: 'cp-1',
-    coaching_name: 'Sharma Science & Math Academy',
-    mentor_name: 'Dr. Rajesh Sharma (Ph.D, 15+ Yrs Exp)',
-    subjects: 'Class 9th-12th Mathematics & Physics',
-    category: 'boards',
-    tagline: 'Excellence in CBSE & State Board Preparation',
-    description: 'Specialized coaching in board exam pattern with weekly mock tests, NCERT exemplar solving, formula cheat sheets, and personal mentorship.',
-    badge: 'Top Rated Institute',
-    student_count: 128,
-    rating: 4.9,
-    contact_phone: '+91 98765 43210',
-    image_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80',
-    location: 'Civil Lines, Center Hall A',
-    achievements: '98.2% District Topper in 2025'
-  },
-  {
-    id: 'cp-2',
-    coaching_name: 'Target IIT & NEET Foundation',
-    mentor_name: 'Er. Alok Pandey (B.Tech IIT-BHU)',
-    subjects: 'Advanced Physics & Mathematics (JEE / NEET)',
-    category: 'jee_neet',
-    tagline: 'Rankers Batch for JEE & NEET Aspirants',
-    description: 'Rigorous conceptual problem-solving, speed test series, previous 15 years question bank analysis, and doubt clearing clinics.',
-    badge: 'Verified Academy',
-    student_count: 95,
-    rating: 4.8,
-    contact_phone: '+91 93350 44556',
-    image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop&q=80',
-    location: 'University Road, Block B',
-    achievements: '42+ Students Selected in JEE Main'
-  },
-  {
-    id: 'cp-3',
-    coaching_name: 'Mishra Chemistry Classes',
-    mentor_name: 'Prof. Sunita Mishra (M.Sc Gold Medalist)',
-    subjects: 'Organic, Inorganic & Physical Chemistry',
-    category: 'science',
-    tagline: 'Master Reactions & Formulas with Easy Tricks',
-    description: 'Visualizing reaction mechanisms in 3D, daily reaction sheets, equation balancing tips, and board scoring strategies.',
-    badge: 'Popular',
-    student_count: 82,
-    rating: 4.9,
-    contact_phone: '+91 94150 99887',
-    image_url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&auto=format&fit=crop&q=80',
-    location: 'Shastri Nagar, Science Complex',
-    achievements: '100% Board Pass Rate in Chemistry'
-  },
-  {
-    id: 'cp-4',
-    coaching_name: 'Apex English & Humanities Academy',
-    mentor_name: 'Mahesh Rawat (M.A. B.Ed, 12+ Yrs Exp)',
-    subjects: 'Class 9th-12th English Core & Social Science',
-    category: 'boards',
-    tagline: 'Fluent Writing, Grammar Mastery & Map Skills',
-    description: 'Comprehensive line-by-line chapter explanations, essay writing mastery, and map pointing practice for maximum marks.',
-    badge: 'Top Faculty',
-    student_count: 74,
-    rating: 4.8,
-    contact_phone: '+91 98220 11223',
-    image_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&auto=format&fit=crop&q=80',
-    location: 'Gandhi Chowk, Floor 2',
-    achievements: 'Average Score 91+ in English'
-  }
-];
-
-// Initial Global Announcements / Broadcasts
-const INITIAL_BROADCASTS = [
-  {
-    id: 'not-glob-1',
-    title: 'Admissions & State Talent Scholarship Test 2026 Announced',
-    title_hi: 'सत्र 2026-27 प्रवेश एवं राज्य स्तरीय प्रतिभा खोज छात्रवृत्ति परीक्षा घोषित',
-    content: 'All students and registered tutors are informed that the Shiksha Gram State-Level Talent Scholarship test will be conducted on 15th March 2026 across certified centers. Up to 100% scholarships will be granted to the top 100 students.',
-    content_hi: 'सभी विद्यार्थियों एवं शिक्षकों को सूचित किया जाता है कि शिक्षा ग्राम राज्य स्तरीय मेधावी छात्रवृत्ति परीक्षा 15 मार्च 2026 को सभी प्रमाणित केंद्रों पर आयोजित की जाएगी। शीर्ष 100 छात्रों को शत-प्रतिशत शुल्क छूट प्रदान की जाएगी।',
-    priority: 'urgent',
-    target_audience: 'all',
-    author: 'Platform Admin',
-    date: '2026-03-01',
-    category: 'scholarship'
-  },
-  {
-    id: 'not-glob-2',
-    title: 'Special Sunday 3-Hour Mock Test Series for Class 10th & 12th',
-    title_hi: 'कक्षा 10वीं व 12वीं के लिए विशेष रविवार 3-घंटे मॉक टेस्ट सीरीज',
-    content: 'Full syllabus pre-board simulation tests will be conducted every Sunday from 9:00 AM to 12:00 PM. Admittance cards are available in the student dashboard under Learning Hub.',
-    content_hi: 'संपूर्ण पाठ्यक्रम पर आधारित प्री-बोर्ड सिमुलेशन टेस्ट प्रत्येक रविवार सुबह 9:00 से 12:00 बजे तक आयोजित होंगे। छात्र डैशबोर्ड में प्रवेश पत्र उपलब्ध हैं।',
-    priority: 'urgent',
-    target_audience: 'students',
-    author: 'Dr. Rajesh Sharma (Academic Director)',
-    date: '2026-02-28',
-    category: 'academic'
-  },
-  {
-    id: 'not-glob-3',
-    title: 'New Verification Standards & Verified Badge for Educators',
-    title_hi: 'शिक्षकों हेतु नए सत्यापन मानक एवं प्रमाणित बैज नीति',
-    content: 'All educators must upload their degree verification documents and coaching premises proof within 7 days to maintain verified badge status on the landing directory.',
-    content_hi: 'सभी शिक्षकों को अपनी डिग्री एवं कोचिंग परिसर का सत्यापन दस्तावेज 7 दिनों के भीतर अपलोड करना अनिवार्य है ताकि उन्हें प्रमाणित बैज प्राप्त रह सके।',
-    priority: 'normal',
-    target_audience: 'teachers',
-    author: 'Platform Operations Admin',
-    date: '2026-02-25',
-    category: 'platform'
-  },
-  {
-    id: 'not-glob-4',
-    title: 'Automated WhatsApp Attendance & Result Delivery Activated',
-    title_hi: 'अभिभावकों हेतु व्हाट्सएप ऑटोमेटेड अटेंडेंस व रिजल्ट सेवा सक्रिय',
-    content: 'Parents will now receive daily instant attendance notifications and weekly test scorecards directly on their registered WhatsApp numbers.',
-    content_hi: 'अभिभावक अब प्रतिदिन की उपस्थिति एवं साप्ताहिक टेस्ट रिपोर्ट सीधे अपने पंजीकृत व्हाट्सएप नंबर पर प्राप्त कर सकेंगे।',
-    priority: 'normal',
-    target_audience: 'parents',
-    author: 'Platform Support Team',
-    date: '2026-02-20',
-    category: 'platform'
-  }
-];
+import {
+  DEFAULT_CMS_CONTENT,
+  DEFAULT_PROMO_POSTERS,
+  DEFAULT_COACHING_PARTNERS,
+  DEFAULT_GLOBAL_BROADCASTS,
+  getStoredLandingCMS,
+  getStoredPromoPosters,
+  getStoredCoachingPromotions,
+  getStoredBroadcasts
+} from '../../services/landingData';
 
 export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
   const { login, signup, loginWithGoogle, pendingVerificationNotice } = useAuth();
@@ -273,24 +91,18 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
   const [dob, setDob] = useState('2008-05-15');
 
   // Dynamic Landing CMS & Promotions State (Managed dynamically via Admin Console)
-  const [cmsContent, setCmsContent] = useState({
-    hero_title: 'Where Technology Meets Education',
-    hero_title_hi: 'जहाँ तकनीक और शिक्षा का संगम होता है',
-    hero_subtitle: "India's premier coaching management platform connecting independent tutors, institutes, students, and parents in one seamless ecosystem.",
-    hero_subtitle_hi: 'कागजी रजिस्टर, उलझे हुए व्हाट्सएप ग्रुपों को कहें अलविदा। एक क्लिक में उपस्थिति, रिजल्ट और नोट्स प्रबंधित करें।',
-    promotions_banner: '🔥 Admissions Open for Academic Session 2026-27! Register today for top batch seats & scholarships.',
-    promotions_banner_hi: '🔥 सत्र 2026-27 के नए बैच प्रारंभ! सीमित सीटें उपलब्ध, आज ही नामांकन कराएं एवं छात्रवृत्ति पाएं।',
-  });
+  const [cmsContent, setCmsContent] = useState(getStoredLandingCMS);
 
-  // Posters & Promotions
-  const [promotions, setPromotions] = useState(DEFAULT_COACHING_PARTNERS);
+  // Dynamic Posters & Coaching Directory
+  const [promoPosters, setPromoPosters] = useState(getStoredPromoPosters);
+  const [promotions, setPromotions] = useState(getStoredCoachingPromotions);
   const [activePosterIndex, setActivePosterIndex] = useState(0);
   const [posterFilter, setPosterFilter] = useState('all'); // 'all' | 'boards' | 'jee_neet' | 'science'
   const [coachingSearch, setCoachingSearch] = useState('');
   const [selectedPosterModal, setSelectedPosterModal] = useState(null);
 
   // Live Global Broadcasts & Notices
-  const [broadcasts, setBroadcasts] = useState(INITIAL_BROADCASTS);
+  const [broadcasts, setBroadcasts] = useState(getStoredBroadcasts);
   const [broadcastFilter, setBroadcastFilter] = useState('all'); // 'all' | 'urgent' | 'academic' | 'platform'
   const [selectedNoticeModal, setSelectedNoticeModal] = useState(null);
 
@@ -304,14 +116,25 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
 
   // Auto-slide poster carousel every 5 seconds
   useEffect(() => {
+    if (!promoPosters || promoPosters.length === 0) return;
     const timer = setInterval(() => {
-      setActivePosterIndex((prev) => (prev + 1) % PROMO_POSTERS.length);
+      setActivePosterIndex((prev) => (prev + 1) % promoPosters.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [promoPosters.length]);
 
-  // Synchronize dynamic Landing CMS, Coaching Promotions, and Broadcasts
+  // Synchronize dynamic Landing CMS, Posters, Coaching Promotions, and Broadcasts
   useEffect(() => {
+    const handleSync = () => {
+      setCmsContent(getStoredLandingCMS());
+      setPromoPosters(getStoredPromoPosters());
+      setPromotions(getStoredCoachingPromotions());
+      setBroadcasts(getStoredBroadcasts());
+    };
+
+    window.addEventListener('sg_landing_sync', handleSync);
+    window.addEventListener('storage', handleSync);
+
     const loadDynamicLandingData = async () => {
       // 1. Load CMS Content
       try {
@@ -319,38 +142,15 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
         if (content && content.hero_title) {
           setCmsContent(content);
         }
-      } catch (e) {
-        // Fallback to local storage if present
-        try {
-          const localCms = localStorage.getItem('sg_cms_content');
-          if (localCms) setCmsContent(JSON.parse(localCms));
-        } catch (_) {}
-      }
+      } catch (e) {}
 
       // 2. Load Coaching Promotions (Admin published)
       try {
         const promos = await api.getCoachingPromotions();
         if (promos && promos.length > 0) {
-          // Merge API promos with defaults
-          const merged = [...promos];
-          DEFAULT_COACHING_PARTNERS.forEach(def => {
-            if (!merged.some(m => m.id === def.id || m.coaching_name === def.coaching_name)) {
-              merged.push(def);
-            }
-          });
-          setPromotions(merged);
+          setPromotions(promos);
         }
-      } catch (e) {
-        try {
-          const localPromos = localStorage.getItem('sg_promotions');
-          if (localPromos) {
-            const parsed = JSON.parse(localPromos);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setPromotions(parsed);
-            }
-          }
-        } catch (_) {}
-      }
+      } catch (e) {}
 
       // 3. Load Global Broadcasts & Notices
       try {
@@ -368,29 +168,17 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
         }
 
         if (fetchedList.length > 0) {
-          // Deduplicate by id or title
-          const unique = [...fetchedList];
-          INITIAL_BROADCASTS.forEach(init => {
-            if (!unique.some(u => u.id === init.id || u.title === init.title)) {
-              unique.push(init);
-            }
-          });
-          setBroadcasts(unique);
+          setBroadcasts(fetchedList);
         }
-      } catch (e) {
-        try {
-          const localDb = getMockData();
-          if (localDb && localDb.notices) {
-            const active = localDb.notices.filter(n => n.isGlobal || n.priority === 'urgent');
-            if (active.length > 0) {
-              setBroadcasts([...active, ...INITIAL_BROADCASTS]);
-            }
-          }
-        } catch (_) {}
-      }
+      } catch (e) {}
     };
 
     loadDynamicLandingData();
+
+    return () => {
+      window.removeEventListener('sg_landing_sync', handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
   }, []);
 
   const toggleSubject = (sub) => {
@@ -515,7 +303,7 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
 
   // Filtered Broadcasts
   const filteredBroadcasts = useMemo(() => {
-    return broadcasts.filter(b => {
+    return (broadcasts || []).filter(b => {
       if (broadcastFilter === 'all') return true;
       if (broadcastFilter === 'urgent') return b.priority === 'urgent';
       if (broadcastFilter === 'academic') return b.category === 'academic' || b.category === 'scholarship';
@@ -526,7 +314,7 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
 
   // Filtered Coaching Promotions
   const filteredPromotions = useMemo(() => {
-    return promotions.filter(p => {
+    return (promotions || []).filter(p => {
       const matchCat = posterFilter === 'all' || (p.category && p.category === posterFilter);
       const q = coachingSearch.toLowerCase().trim();
       const matchSearch = !q || 
@@ -538,7 +326,7 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
     });
   }, [promotions, posterFilter, coachingSearch]);
 
-  const activePoster = PROMO_POSTERS[activePosterIndex];
+  const activePoster = (promoPosters && promoPosters.length > 0 && promoPosters[activePosterIndex]) || promoPosters?.[0] || DEFAULT_PROMO_POSTERS[0];
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0B1120] text-slate-800 dark:text-slate-100 transition-colors font-sans selection:bg-brand-500 selection:text-white">
@@ -1099,7 +887,6 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
       </section>
 
       {/* 4. SLIDE DOWN 1: LIVE GLOBAL BROADCASTING HUB (प्लेटफॉर्म सूचनाएं एवं लाइव घोषणाएं) */}
-      {/* Placed IMMEDIATELY below Hero / Login as requested */}
       <section id="broadcasts" className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200/60 dark:border-slate-800 scroll-mt-20">
         
         {/* Section Header with Live Radar Pulsing Beacon */}
@@ -1233,7 +1020,6 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
       </section>
 
       {/* 5. SLIDE DOWN 2: PROMOTIONS & COACHING SHOWCASE (कोचिंग प्रमोशन्स, पोस्टर्स व ऑफर्स) */}
-      {/* Placed DIRECTLY below Global Broadcasting as requested */}
       <section id="promotions" className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200/60 dark:border-slate-800 scroll-mt-20">
         
         {/* Section Header */}
@@ -1252,111 +1038,113 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
         </div>
 
         {/* PART A: MULTI-POSTER DYNAMIC BANNER CAROUSEL / SLIDER */}
-        <div className="relative rounded-3xl overflow-hidden bg-slate-900 text-white shadow-2xl mb-12 border border-slate-800">
-          
-          <div className="relative h-[340px] sm:h-[380px] lg:h-[420px] w-full overflow-hidden">
+        {activePoster && (
+          <div className="relative rounded-3xl overflow-hidden bg-slate-900 text-white shadow-2xl mb-12 border border-slate-800">
             
-            {/* Background Poster Image with Gradient Overlay */}
-            <img 
-              src={activePoster.image} 
-              alt={activePoster.title} 
-              className="w-full h-full object-cover object-center filter brightness-[0.38] transition-all duration-700 scale-105"
-            />
-            
-            {/* Content Overlay */}
-            <div className="absolute inset-0 p-6 sm:p-10 lg:p-12 flex flex-col justify-between max-w-4xl z-10">
+            <div className="relative h-[340px] sm:h-[380px] lg:h-[420px] w-full overflow-hidden">
               
-              {/* Badge & Validity */}
-              <div className="flex flex-wrap items-center gap-2.5">
-                <span className="px-3 py-1 rounded-full text-xs font-black bg-brand-500 text-white shadow-md uppercase tracking-wider">
-                  {lang === 'hi' ? activePoster.badge_hi : activePoster.badge}
-                </span>
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/90 text-white backdrop-blur-xs flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                  <span>{activePoster.discount}</span>
-                </span>
-                <span className="px-3 py-1 rounded-full text-xs font-mono bg-white/10 text-slate-200 backdrop-blur-xs">
-                  Valid till: {activePoster.validTill}
-                </span>
-              </div>
-
-              {/* Title & Description */}
-              <div className="space-y-2.5 my-auto py-4">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight drop-shadow-sm">
-                  {lang === 'hi' ? activePoster.title_hi : activePoster.title}
-                </h3>
-                <p className="text-xs sm:text-sm font-semibold text-amber-300">
-                  {lang === 'hi' ? activePoster.tagline_hi : activePoster.tagline}
-                </p>
-                <p className="text-xs sm:text-sm text-slate-200 max-w-2xl leading-relaxed hidden sm:block">
-                  {lang === 'hi' ? activePoster.description_hi : activePoster.description}
-                </p>
-              </div>
-
-              {/* Call to action & Direct Inquiry */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <a
-                  href={`https://wa.me/${activePoster.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                    `Hello! I saw the "${activePoster.title}" poster on Shiksha Gram and would like to inquire regarding registration.`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/30"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>{lang === 'hi' ? 'व्हाट्सएप पर सीट बुक करें' : 'Claim Seat via WhatsApp'}</span>
-                </a>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedPosterModal(activePoster)}
-                  className="px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold backdrop-blur-xs transition-all flex items-center gap-1.5"
-                >
-                  <Eye className="w-4 h-4" />
-                  <span>{lang === 'hi' ? 'बड़ा पोस्टर देखें' : 'View Full Poster'}</span>
-                </button>
-
-                <div className="ml-auto hidden md:flex items-center gap-2 text-xs text-slate-300 font-semibold">
-                  <Building className="w-4 h-4 text-brand-400" />
-                  <span>{activePoster.organizer}</span>
+              {/* Background Poster Image with Gradient Overlay */}
+              <img 
+                src={activePoster.image} 
+                alt={activePoster.title} 
+                className="w-full h-full object-cover object-center filter brightness-[0.38] transition-all duration-700 scale-105"
+              />
+              
+              {/* Content Overlay */}
+              <div className="absolute inset-0 p-6 sm:p-10 lg:p-12 flex flex-col justify-between max-w-4xl z-10">
+                
+                {/* Badge & Validity */}
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span className="px-3 py-1 rounded-full text-xs font-black bg-brand-500 text-white shadow-md uppercase tracking-wider">
+                    {lang === 'hi' ? activePoster.badge_hi : activePoster.badge}
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/90 text-white backdrop-blur-xs flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                    <span>{activePoster.discount}</span>
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-xs font-mono bg-white/10 text-slate-200 backdrop-blur-xs">
+                    Valid till: {activePoster.validTill}
+                  </span>
                 </div>
+
+                {/* Title & Description */}
+                <div className="space-y-2.5 my-auto py-4">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight drop-shadow-sm">
+                    {lang === 'hi' ? activePoster.title_hi : activePoster.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm font-semibold text-amber-300">
+                    {lang === 'hi' ? activePoster.tagline_hi : activePoster.tagline}
+                  </p>
+                  <p className="text-xs sm:text-sm text-slate-200 max-w-2xl leading-relaxed hidden sm:block">
+                    {lang === 'hi' ? activePoster.description_hi : activePoster.description}
+                  </p>
+                </div>
+
+                {/* Call to action & Direct Inquiry */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <a
+                    href={`https://wa.me/${(activePoster.phone || '+919876543210').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                      `Hello! I saw the "${activePoster.title}" poster on Shiksha Gram and would like to inquire regarding registration.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/30"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>{lang === 'hi' ? 'व्हाट्सएप पर सीट बुक करें' : 'Claim Seat via WhatsApp'}</span>
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPosterModal(activePoster)}
+                    className="px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold backdrop-blur-xs transition-all flex items-center gap-1.5"
+                  >
+                    <Eye className="w-4 h-4" />
+                    <span>{lang === 'hi' ? 'बड़ा पोस्टर देखें' : 'View Full Poster'}</span>
+                  </button>
+
+                  <div className="ml-auto hidden md:flex items-center gap-2 text-xs text-slate-300 font-semibold">
+                    <Building className="w-4 h-4 text-brand-400" />
+                    <span>{activePoster.organizer}</span>
+                  </div>
+                </div>
+
               </div>
 
-            </div>
+              {/* Slider Navigation Arrows */}
+              <button
+                onClick={() => setActivePosterIndex((prev) => (prev - 1 + promoPosters.length) % promoPosters.length)}
+                className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-all z-20"
+                title="Previous Poster"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setActivePosterIndex((prev) => (prev + 1) % promoPosters.length)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-all z-20"
+                title="Next Poster"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
 
-            {/* Slider Navigation Arrows */}
-            <button
-              onClick={() => setActivePosterIndex((prev) => (prev - 1 + PROMO_POSTERS.length) % PROMO_POSTERS.length)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-all z-20"
-              title="Previous Poster"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => setActivePosterIndex((prev) => (prev + 1) % PROMO_POSTERS.length)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs transition-all z-20"
-              title="Next Poster"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+              {/* Indicator Dots */}
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+                {promoPosters.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActivePosterIndex(idx)}
+                    className={`h-2 rounded-full transition-all ${
+                      activePosterIndex === idx ? 'w-8 bg-brand-500' : 'w-2 bg-white/40 hover:bg-white/70'
+                    }`}
+                    title={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
 
-            {/* Indicator Dots */}
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
-              {PROMO_POSTERS.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActivePosterIndex(idx)}
-                  className={`h-2 rounded-full transition-all ${
-                    activePosterIndex === idx ? 'w-8 bg-brand-500' : 'w-2 bg-white/40 hover:bg-white/70'
-                  }`}
-                  title={`Go to slide ${idx + 1}`}
-                />
-              ))}
             </div>
 
           </div>
-
-        </div>
+        )}
 
         {/* PART B: VERIFIED COACHING DIRECTORY & PARTNER POSTERS */}
         <div className="space-y-6">
@@ -1652,7 +1440,6 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
                 </div>
               )}
 
-              {/* Verified Result Card */}
               {parentVerifiedData && (
                 <div className="mb-4 p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs space-y-2">
                   <div className="flex items-center justify-between">
@@ -1882,7 +1669,7 @@ export const LandingPage = ({ onNavigateAdmin, onLoginSuccess }) => {
                 </div>
 
                 <a
-                  href={`https://wa.me/${selectedPosterModal.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                  href={`https://wa.me/${(selectedPosterModal.phone || '+919876543210').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
                     `Hello! I am inquiring about the "${selectedPosterModal.title}" poster on Shiksha Gram.`
                   )}`}
                   target="_blank"
